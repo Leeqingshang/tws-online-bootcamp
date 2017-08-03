@@ -1,25 +1,24 @@
 'use strict';
+function includes(arr,ch){
+   for(let item of arr){
+   	   if(item.key===ch){
+   	   	  return item;
+   	   }
+   }
+   return null; 
+}
+
 
 module.exports = function countSameElements(collection) {
- 
-			            let result=new Array();						
-						let ilen=collection.length;
-						//双循环统计相同元素
-						if(ilen>0){
-						   for(let i=0;i<ilen;i++){
-						    let temp=collection[i];
-                            let count=0;
-                            for(let j=0;j<ilen;j++){
-								  if(collection[j]==temp){
-								     count++;
-									 collection[j]=-1;
-								  }
-							}
-							if(temp==-1){continue};
-						    result.push({key:temp,count:count}); 							
-						    }
-						};
-											
-					  return result;
-               
+               let result=new Array();
+               for(let item of collection){
+               	   let obj=includes(result,item)
+               	   if(obj){
+               	   	   obj.count++;
+               	   }else{
+               	   	   result.push({key:item,count:1});
+               	   }
+               }
+
+               return result;               
 }

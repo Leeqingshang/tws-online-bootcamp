@@ -1,18 +1,22 @@
 'use strict';
 
-module.exports = function collectSameElements(collectionA, collectionB) {
-  if( !(Array.isArray(collectionA)) &&　!(Array.isArray(collectionB))){ 
-      return false;
+function includes(arr,ch){
+  for(let item of arr){
+      if(item===ch){
+        return true;
+      }
   }
+  return false;
+}
+
+module.exports = function collectSameElements(collectionA, collectionB) {
+ 
   let result=new Array();
-  let j=0;
-  collectionA.forEach((itemA,index,array)=>{
-      for(const itemB of collectionB[0]){
-	      if(itemB==itemA){
-		     result[j]=itemA;
-			 j++;
-		  }
-	  }            
-  });
-  return result;
+    for(let item of collectionA){
+      if(includes(collectionB[0],item)){
+        result.push(item);
+      }
+    }
+
+    return result;
 }

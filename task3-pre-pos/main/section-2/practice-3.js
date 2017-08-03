@@ -1,47 +1,99 @@
 'use strict';
 
 
-module.exports = function countSameElements(collection) {
- 
-			            let result=new Array();
-					    let newResult=new Array(); 
-						let ilen=collection.length;
-						//双循环统计相同元素
-						if(ilen>0){
-						   for(let i=0;i<ilen;i++){
-						    let temp=collection[i];
-                            let count=0;
-                            for(let j=0;j<ilen;j++){
-								  if(collection[j]==temp){
-								     count++;
-									 collection[j]=-1;
-								  }
-							}
-							if(temp==-1){continue};
-							if(/[\[\]\:-]+/g.exec(temp)!=null){ 
-								let key=temp.slice(0,1);
-								let count=parseInt(/[\d]+/.exec(temp)[0]);
-                                result.push({key:key,count:count});
-							}else{
-								result.push({key:temp,count:count});
-							}							
-						  }
-						};
-						 
-						//去重统计
-						for(let i=0;i<result.length;i++){
-							//新集合第一项推入
-                            if(i==0){
-                            	newResult.push({name:result[i].key,summary:result[i].count});
-                            	i+=1;
-                            }
-                            if(result[i].key==newResult[newResult.length-1].name){
-                               newResult[newResult.length-1].summary+=result[i].count;
-                            }else{
-                               newResult.push({name:result[i].key,summary:result[i].count});	
-                            }   
-						} 
+function split(item){
+   let result=[];
+   if(/[\:\[\]-]/.exec(item)[0]!==null){
+      result={key:item.slice(0,1),count:parseInt(/[\d]+/.exec(item)[0])};
+   }
+   return result;
+}
 
-					  return newResult;
-               
+function push(arr,key,count){
+   let result=[];
+   for(let i=0;i<count;i++){
+   	  arr.push(key); 
+   }    
+}
+
+function extendArray(collection){
+   let result=new Array();
+   
+   for(let item of collection){
+   	  if(item.length===1){
+   	  	 result.push(item);
+   	  }else{
+   	  	 let  splitArray=split(item);
+   	  	 push(result,splitArray.key,splitArray.count);
+   	  }
+   }
+ 
+   return result;
+}
+
+
+function includes(result,obj){
+   for(let item of result){
+       if(item.name===obj){
+       	  return item;
+       }
+   }
+
+   return null;
+}
+
+function summarize(arr){
+   let result=[];
+   for(let item of arr){
+   	  let obj=includes(result,item);
+   	  if(obj){
+   	  	obj.summary++;
+   	  }else{
+   	  	result.push({name:item,summary:1});
+   	  }
+   }
+
+   return result; 
+}
+
+module.exports = function countSameElements(collection) {
+			    /*let array=extendArray(collection);
+                
+			    return summarize(array);*/
+
+             let result=[];
+             for(let i=0;i<collection.length;i++){
+                let temp=collection[i];
+                let count=0;
+                for(let j=0;j<collection.length;j++){
+                  if(temp==collection[j]){
+                     count++;
+                     collection[j]=-1;
+                  }
+                }
+                if(temp==-1){continue;}
+
+                //处理特殊数据
+                if(temp.length>-1){
+
+                  let key=temp.slice(0,1);
+              
+                  if(temp.includes('[')){
+                     count=parseInt(temp.slice(2,temp.length-1));
+                  }
+                  if(temp.includes(':') || temp.includes('-')  ){            
+                     count=parseInt(temp.slice(2));
+                  }
+                  
+                  result.push({key:key,count:count});
+                }else{
+                
+                 //正常数据
+                  result.push({key:temp,count:count});
+                }
+              
+                
+             }
+
+             console.log(result);
 }
