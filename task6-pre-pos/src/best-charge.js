@@ -1,5 +1,8 @@
 'use strict'
 
+let loadAllItems = require('./items.js');
+let loadPromotions = require('./promotions.js');
+
 function push(arr,key,count){
    for(let i = 0;i < count;i++){
    	   arr.push(key);
@@ -144,7 +147,7 @@ function viewModel(menu,priceData){
     return expectText;
 }
 
-function bestCharge(inputs) {
+module.exports = function bestCharge(inputs) {
    if(inputs.length == 0 ){return false;}
    let menu = getMenu(inputs);
 
@@ -158,4 +161,5 @@ function bestCharge(inputs) {
    let result = viewModel(menu,priceData);
 
    return result;
+   //console.log(result);
 }
