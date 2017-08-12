@@ -1,5 +1,11 @@
 "use strict";
 
+var _ = require("lodash");
+var chai = require("chai");
+var sinon = require("sinon");
+var sinonChai = require("sinon-chai");
+var expect = chai.expect;
+chai.use(sinonChai);
 
 let main = require("../lib/main.js");
 let lyrics = require('../lyrics.js');
@@ -14,7 +20,7 @@ Take one down and pass it around, 1 bottle of beer on the wall.
 Take one down and pass it around, no more bottles of beer on the wall.
 No more bottles of beer on the wall, no more bottles of beer.
 Go to the store and buy some more, 99 bottles of beer on the wall.`;
-        expect(lyric).toEqual(result);
+        expect(lyric).to.equal(result);
     }) 
 
     it('test 3',function(){
@@ -27,12 +33,12 @@ Take one down and pass it around, 1 bottle of beer on the wall.
 Take one down and pass it around, no more bottles of beer on the wall.
 No more bottles of beer on the wall, no more bottles of beer.
 Go to the store and buy some more, 99 bottles of beer on the wall.`;
-        expect(lyric).toEqual(result);
+        expect(lyric).to.equal(result);
     }) 
     it("test 99",function(){
         let result = main(99);
         let lyric = lyrics();
-        expect(lyric).toEqual(result);
+        expect(lyric).to.equal(result);
     });
 });
 
