@@ -1,8 +1,13 @@
 'use strict';
 
 function amount_even(collection) {
-
-  //在这里写入代码
+    let result = 0;
+    collection.forEach((x) => {
+    	if(x%2 === 0){
+    		result +=x;
+    	}
+    });
+    return result;
 }
 
 module.exports = amount_even;
